@@ -93,7 +93,7 @@ def e(p):
   s+=V[c.upper()]*(1 if c.isupper() else -1)
  return s if p.w else -s
 def o(L,p):
- L.sort(key=lambda mv:(V[p.b[mv[1]].upper()] if p.b[mv[1]] else 0)+(10 if mv[2] else 0),reverse=True)
+ L.sort(key=lambda mv:(V[p.b[mv[1]].upper()] if p.b[mv[1]] else 0)*10-(V[p.b[mv[0]].upper()]//50)+(1000 if mv[2] else 0),reverse=True)
  return L
 def s(p,d,al,be):
  if d<=0:
