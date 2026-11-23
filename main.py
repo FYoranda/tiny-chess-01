@@ -1,12 +1,9 @@
-import json,os,urllib.request as q
+import json,os,sys,urllib.request as q
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+from book import V,A,D,R,T,LINES
 E=os.environ["MAKEFUN_ENV_URL"]
 def P_(p,b):
  with q.urlopen(q.Request(E+p,json.dumps(b).encode()))as s:return json.load(s)
-V={'P':100,'N':320,'B':330,'R':500,'Q':900,'K':0}
-T="AAAAZZZZFFKPCCFMAAAKC><ACFF7AAAA(-22-7AA2AFH2CHK2AHK2CFH-7AC(-227<<<<AAA<ACF<CCF<AFF<FFF<CAA7<<<AAAACFFF>AAA>AAA>AAA>AAA>AAA>AAAAAAC7<<><AAA<ACC>ACCAACC<CCC<ACA7<<>2--(2--(2--(2--(722-<777KKAAKPFA"
-A=[-33,-31,-18,-14,14,18,31,33]
-D=[-17,-15,15,17]
-R=[-16,-1,1,16]
 G=D+R
 N=0
 LIM=20000
@@ -127,6 +124,15 @@ def b(p,L):
   if N>LIM:break
   bm=cm
  return bm
+Z=lambda r,w:('QRBN'[r-1] if w else 'qrbn'[r-1]) if r else ''
+def K(p):
+ for c,L in LINES:
+  if(c==1)!=p.w:continue
+  q=P()
+  for f,t,r in L:
+   if q.b==p.b and q.w==p.w:return(f,t,Z(r,p.w))
+   q=m(q,(f,t,Z(r,q.w)))
+ return None
 def h(s):return chr(97+(s&7))+str((s>>4)+1)
 def u(mv):return h(mv[0])+h(mv[1])+(mv[2].lower() if mv[2] else '')
 def w(x):return(ord(x[0])-97)+(int(x[1])-1)*16
@@ -139,5 +145,7 @@ def main():
    p=P()
    for y in g["moves"]:p=m(p,c(y,p))
    L=[c(x,p) for x in g["legal_moves"]]
-   g=P_("/move",{"game":g["game"],"move":u(b(p,L))})
+   mv=K(p)
+   mv=mv if mv in L else b(p,L)
+   g=P_("/move",{"game":g["game"],"move":u(mv)})
 if __name__=="__main__":main()
